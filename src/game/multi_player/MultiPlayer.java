@@ -3,14 +3,18 @@ package game.multi_player;
 import game.GameObject;
 import game.GameWindow;
 import game.Player;
+import tklibs.AudioUtils;
 import tklibs.SpriteUtils;
 
+import javax.sound.sampled.Clip;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class MultiPlayer extends GameObject {
-    ArrayList<Player> players  = new ArrayList<Player>();
+    ArrayList<Player> players = new ArrayList<Player>();
+    ArrayList<Dice> dices = new ArrayList<>();
+    Random random = new Random();
     Button diceButton;
     Button betButton;
     int currentPlayerIndex;
@@ -19,6 +23,7 @@ public class MultiPlayer extends GameObject {
     int switchPlayerCount;
     int switchingPlayerDelay;
     boolean gameEnd;
+//    Clip backgroundMusic;
 
     public MultiPlayer(){
         this.players.add(new Player("Player 1"));
@@ -33,6 +38,16 @@ public class MultiPlayer extends GameObject {
         switchPlayerCount = 0;
         switchingPlayerDelay = 60;
         gameEnd = false;
+        addDices();
+//        this.backgroundMusic = AudioUtils.replay(AudioUtils.loadSound(""));
+    }
+
+    private void addDices() {
+        dices.add(new Dice("yellow"));
+        dices.add(new Dice("green"));
+        dices.add(new Dice("blue"));
+        dices.add(new Dice("orange"));
+        dices.add(new Dice("white"));
     }
 
     @Override
@@ -63,9 +78,26 @@ public class MultiPlayer extends GameObject {
     }
 
     private void doDice() {
-        System.out.println("do dice");
+        System.out.println("dice");
+        int diceIndex = random.nextInt(dices.size());
+        Dice dice = dices.get(diceIndex);
+        int point = dice.role();
 
+        //TODO: do point (+ point)
+        System.out.println(point);
+        System.out.println(dice.title);
+
+        //check if end of round (role 5 dices)
+        dices.remove(diceIndex);
+        if(dices.size() <= 0) {
+            endOfRound();
+        }
         switchingPlayer = true; // switch player after 60 frame - .switchPlayer()
+    }
+
+    private void endOfRound() {
+        //TODO: cover logic end of round
+        addDices();
     }
 
     private void doBet() {

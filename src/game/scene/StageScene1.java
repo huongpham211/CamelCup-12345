@@ -17,6 +17,9 @@ public class StageScene1 extends  Scene {
         camel3.tail = camel2;
         Camel camel4 = new Camel("Yellow", new Vector2D(1*188/2f,5*99/2f));
         //camel2.tail = camel1;
+        Camel came15 = new Camel("Green", new Vector2D(7*188/2f, 3*99/2f));
+
+
     }
 
     @Override
